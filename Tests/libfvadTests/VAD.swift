@@ -11,23 +11,31 @@ import libfvad
 class VAD{
     
     let inst: OpaquePointer
-    let sampleRate:Int32 = 16000
-    let aggressiveness:Int32 = 3
+    let sampleRate:Int32
+    let aggressiveness:Int32
     
-    public init?() {
+    
+    public init?(_ sampleRate:Int,_ agressiveness:Int) {
         guard let inst = fvad_new() else { return nil }
         self.inst = inst
         
+        self.sampleRate = Int32(sampleRate)
+        self.aggressiveness = Int32(agressiveness)
+        
         //very aggressive
-        guard fvad_set_mode(self.inst, aggressiveness) == 0 else {
+        guard fvad_set_mode(self.inst, self.aggressiveness) == 0 else {
             fatalError("Invalid value")
         }
         
         //16000hz
-        guard fvad_set_sample_rate(inst, sampleRate) == 0 else {
+        guard fvad_set_sample_rate(inst, self.sampleRate) == 0 else {
             assertionFailure("Invalid value, should be 8000|16000|32000|48000")
             return
         }
+    }
+    
+    public convenience init?(){
+        self.init(16000,3)
     }
     
     ///  Calculates a VAD decision for an audio duration.
