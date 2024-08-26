@@ -12,12 +12,12 @@
 #ifndef FVAD_H_
 #define FVAD_H_
 
+#include <stdint.h>
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include <stdint.h>
-#include <stddef.h>
 
 /*
  * Type for a VAD instance, an opaque object created using fvad_new().
